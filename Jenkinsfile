@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        MONGO_URI = "mongodb://localhost:27017/test_student_db"
+        SECRET_KEY = "jenkins-secret"
+    }
+
     stages {
 
         stage('Checkout') {
@@ -12,10 +17,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
+                    python3 -m venv venv
+                    . venv/bin/activate
+
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                 '''
             }
         }
@@ -23,8 +29,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                . venv/bin/activate
-                pytest test_app.py
+                    . venv/bin/activate
+                    pytest test_app.py -v
                 '''
             }
         }
@@ -32,9 +38,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                mkdir -p deployment
-                cp -r * deployment/
-                echo "Application deployed successfully."
+                    mkdir -p deployment
+                    cp -r * deployment/
+                    echo "Deployment completed successfully."
                 '''
             }
         }
@@ -44,9 +50,11 @@ pipeline {
         success {
             echo 'Pipeline executed successfully!'
         }
+
         failure {
             echo 'Pipeline execution failed!'
         }
+
         always {
             cleanWs()
         }
