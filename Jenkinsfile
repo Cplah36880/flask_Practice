@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        MONGO_URI = "mongodb://localhost:27017/test_student_db"
         SECRET_KEY = "jenkins-secret"
+        MONGO_URI = "mongodb://dummy:27017/test"
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    pytest test_app.py -v
+                    pytest -v
                 '''
             }
         }
@@ -40,7 +40,7 @@ pipeline {
                 sh '''
                     mkdir -p deployment
                     cp -r * deployment/
-                    echo "Deployment completed successfully."
+                    echo "Deployment Successful"
                 '''
             }
         }
@@ -48,11 +48,11 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline executed successfully!'
+            echo "Pipeline completed successfully"
         }
 
         failure {
-            echo 'Pipeline execution failed!'
+            echo "Pipeline failed"
         }
 
         always {
