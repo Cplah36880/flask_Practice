@@ -33,17 +33,23 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                sh '''
-                    mkdir -p deployment
-                    cp -r * deployment/
-                    echo "Deployment Successful"
-                '''
-            }
-        }
-    }
+stage('Deploy') {
+    steps {
+        sh '''
+            echo "===== Deploy Stage ====="
 
+            rm -rf deployment
+            mkdir deployment
+
+            cp app.py deployment/
+            cp requirements.txt deployment/
+            cp -r templates deployment/
+
+            echo "Deployment completed successfully."
+            ls -R deployment
+        '''
+    }
+}
     post {
         success {
             echo 'Pipeline completed successfully!'
