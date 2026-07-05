@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SECRET_KEY = "jenkins-secret"
-        MONGO_URI = "mongodb://dummy:27017/test"
+        PIP_BREAK_SYSTEM_PACKAGES = "1"
     }
 
     stages {
@@ -17,11 +16,15 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
+                    echo "===== Python Version ====="
+                    python3 --version
 
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    echo "===== Pip Version ====="
+                    python3 -m pip --version
+
+                    echo "===== Installing Dependencies ====="
+                    python3 -m pip install --upgrade pip --break-system-packages
+                    python3 -m pip install -r requirements.txt --break-system-packages
                 '''
             }
         }
@@ -29,7 +32,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    . venv/bin/activate
+                    echo "===== Running Tests ====="
                     pytest -v
                 '''
             }
@@ -38,6 +41,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
+                    echo "===== Deploy Stage ====="
                     mkdir -p deployment
                     cp -r * deployment/
                     echo "Deployment Successful"
@@ -48,11 +52,11 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline completed successfully"
+            echo 'Pipeline completed successfully!'
         }
 
         failure {
-            echo "Pipeline failed"
+            echo 'Pipeline failed!'
         }
 
         always {
