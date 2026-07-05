@@ -1,56 +1,113 @@
-# Flask CI/CD Project using Jenkins
+# Flask Practice CI/CD Project
 
-## Objective
+## Project Overview
 
-This project demonstrates a CI/CD pipeline for a Flask application using Jenkins.
+This project demonstrates a complete CI/CD implementation for a Flask web application using Jenkins and GitHub Actions.
 
-## Prerequisites
+---
 
-- Jenkins
-- Python 3
-- Git
-- GitHub
+## Technologies Used
+
+- Python
 - Flask
+- Jenkins
+- GitHub Actions
+- Git
+- PyTest
 
-## Repository
+---
 
-https://github.com/Cplah36880/flask_Practice
+## Jenkins CI/CD Pipeline
 
-## Pipeline Stages
+The Jenkins pipeline consists of the following stages:
 
-### Checkout
-
-Downloads the latest source code from GitHub.
+1. Checkout Source Code
+2. Build
+3. Test
+4. Deploy
 
 ### Build
 
-Installs all dependencies from requirements.txt.
+Installs all project dependencies using:
+
+```
+pip install -r requirements.txt
+```
 
 ### Test
 
-Runs unit tests using pytest.
+Runs the test suite using:
+
+```
+pytest
+```
 
 ### Deploy
 
-Copies the application files into the deployment directory.
+Copies the application files into the deployment folder after successful testing.
 
-## Trigger
+---
 
-The pipeline can be triggered manually or automatically using GitHub Webhooks.
+## GitHub Actions Workflow
 
-## Notifications
+The GitHub Actions workflow automatically performs:
 
-Email notifications can be configured in Jenkins.
+- Checkout Repository
+- Install Dependencies
+- Run Tests
+- Build Application
+- Deploy to Staging (staging branch)
+- Deploy to Production (release)
 
-## Deployment
+---
 
-Deployment creates a deployment folder containing:
+## GitHub Secrets
 
-- app.py
-- templates/
-- requirements.txt
-- README.md
+The following repository secrets are configured:
+
+- DEPLOY_KEY
+- API_TOKEN
+
+---
+
+## Branches
+
+- main
+- staging
+
+---
+
+## Prerequisites
+
+- Python 3
+- Git
+- Jenkins
+- GitHub Account
+
+---
+
+## Repository Structure
+
+```
+.
+├── app.py
+├── Jenkinsfile
+├── requirements.txt
+├── test_app.py
+├── templates/
+└── .github/workflows/ci.yml
+```
+
+---
+
+## Repository
+
+GitHub Repository:
+
+https://github.com/Cplah36880/flask_Practice
+
+---
 
 ## Author
 
-Your Name
+Submitted as part of the HeroVired DevOps Assignment.
