@@ -16,14 +16,10 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    echo "===== Python Version ====="
                     python3 --version
 
-                    echo "===== Pip Version ====="
-                    python3 -m pip --version
-
-                    echo "===== Installing Dependencies ====="
                     python3 -m pip install --upgrade pip --break-system-packages
+
                     python3 -m pip install -r requirements.txt --break-system-packages
                 '''
             }
@@ -32,8 +28,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    echo "===== Running Tests ====="
-                    pytest -v
+                    python3 -m pytest -v
                 '''
             }
         }
@@ -41,7 +36,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    echo "===== Deploy Stage ====="
                     mkdir -p deployment
                     cp -r * deployment/
                     echo "Deployment Successful"
