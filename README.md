@@ -11,7 +11,7 @@ This project demonstrates a complete CI/CD implementation for a Flask web applic
 - Python
 - Flask
 - Jenkins
-- GitHub Actions
+- GitHub Actions are so nice
 - Git
 - PyTest
 
